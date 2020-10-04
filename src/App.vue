@@ -1,28 +1,67 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <v-app style="background-color: #37474f">
+      <v-card class="mx-auto" width="100%" height="100%" rounded="0">
+        <v-app-bar color="#37474f" dark>
+          <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
+
+          <v-toolbar-title>Visualizador de PDV Zanthus</v-toolbar-title>
+          <v-app-bar
+            color="#37474f"
+            dark
+            elevation="0"
+            floating="right"
+            style="-webkit-app-region: drag; width: 50%"
+            px-5
+          ></v-app-bar>
+        </v-app-bar>
+
+        <v-navigation-drawer
+          v-model="drawer"
+          absolute
+          temporary
+          dark
+          color="#37474f"
+        >
+          <v-list nav dense>
+            <v-list-item-group active-class="primary--text text--accent-4">
+              <v-list-item to="/Main">
+                <v-list-item-icon>
+                  <v-icon>mdi-home</v-icon>
+                </v-list-item-icon>
+                <v-list-item-title>Informações</v-list-item-title>
+              </v-list-item>
+              <v-list-item to="/Commands">
+                <v-list-item-icon>
+                  <v-icon>mdi-account</v-icon>
+                </v-list-item-icon>
+                <v-list-item-title>Comandos</v-list-item-title>
+              </v-list-item>
+            </v-list-item-group>
+          </v-list>
+        </v-navigation-drawer>
+        <div class="overflow-auto">
+          <router-view />
+        </div>
+      </v-card>
+    </v-app>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+  name: "App",
+
+  data() {
+    return {
+      drawer: false,
+    };
+  },
+};
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+html {
+  overflow-y: hidden !important;
 }
 </style>
