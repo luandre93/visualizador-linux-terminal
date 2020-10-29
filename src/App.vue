@@ -1,7 +1,13 @@
 <template>
   <div id="app">
     <v-app style="background-color: #37474f">
-      <v-card class="mx-auto" width="100%" height="100%" rounded="0">
+      <v-card
+        class="mx-auto"
+        width="100%"
+        height="100%"
+        rounded="0"
+        style="background-color: #263238"
+      >
         <v-app-bar color="#37474f" dark>
           <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
 
@@ -63,5 +69,31 @@ export default {
 <style>
 html {
   overflow-y: hidden !important;
+}
+
+/* Sets the dimensions of the entire scrollbar */
+html::-webkit-scrollbar {
+  width: 30px;
+  height: 30px;
+}
+
+/* The grabbable scrollbar button  */
+html::-webkit-scrollbar-thumb {
+  background: -webkit-gradient(
+    linear,
+    left top,
+    left bottom,
+    from(#ff8a00),
+    to(#e52e71)
+  );
+  background: linear-gradient(180deg, #ff8a00, #e52e71);
+  border-radius: 30px;
+  box-shadow: inset 2px 2px 2px hsla(0, 0%, 100%, 0.25),
+    inset -2px -2px 2px rgba(0, 0, 0, 0.25);
+}
+
+/* The vertical scrollbar background */
+html::-webkit-scrollbar-track {
+  background: linear-gradient(90deg, #201c29, #201c29 1px, #100e17 0, #100e17);
 }
 </style>

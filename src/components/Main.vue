@@ -167,10 +167,13 @@
         </v-card>
       </div>
     </div>
+
+    <!-- footer -->
+
     <v-footer dark absolute color="#37474F">
       <v-row>
         <v-text-field
-          v-model="sshClient.ipAddress"
+          v-model="$store.sshClient.ipAddress"
           label="IP"
           class="mx-2"
         ></v-text-field>
@@ -194,12 +197,14 @@
         >
       </v-row>
     </v-footer>
+
+    <!-- fim do footer -->
   </v-container>
 </template>
 
 <script>
 import Modal from "./Modals/Modal.vue";
-import { ipcRenderer } from "electron";
+
 export default {
   name: "Main",
 
@@ -208,11 +213,7 @@ export default {
       titulo: "",
       conteudo: "",
       modal: false,
-      sshClient: {
-        ipAddress: "",
-        user: "",
-        password: "",
-      },
+
       pdvClient: {
         hostName: "",
         cpuMaquina: "",
@@ -256,6 +257,7 @@ export default {
           "Porta: " +
           this.pdvClient._pinpad.POR[0];
       }
+
       if (out == "balanca") {
         this.modal = true;
         this.titulo = "Balança";
@@ -274,6 +276,7 @@ export default {
           "Porta: " +
           this.pdvClient._balanca.POR[0];
       }
+
       if (out == "scanner") {
         this.modal = true;
         this.titulo = "Leitor de Mesa";
@@ -292,6 +295,7 @@ export default {
           "Porta: " +
           this.pdvClient._scanner.POR[0];
       }
+
       if (out == "scanner_mao") {
         this.modal = true;
         this.titulo = "Leitor de Mesa";
@@ -313,11 +317,7 @@ export default {
     },
 
     processBackendSend() {
-      ipcRenderer.send("ssh-connect-login", this.sshClient);
-      ipcRenderer.on("ssh-connect-login", (event, Response) => {
-        this.pdvClient = Response;
-        console.log(this.pdvClient);
-      });
+      this.$store.dispatch("ConnectionSSH");
     },
   },
 };

@@ -23,7 +23,6 @@ let outClient =
     _balanca: "",
 }
 
-
 ipcMain.on('ssh-connect-login', (event, args) => {
 
     var ssh = new SSH({
