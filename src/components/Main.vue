@@ -22,7 +22,7 @@
               <v-text-field
                 name="name"
                 style="font-size: 12px"
-                v-model="pdvClient.cpuMaquina"
+                v-model="cpuMaquina"
                 outlined
                 label="Processador"
                 id="id"
@@ -32,7 +32,7 @@
               <v-text-field
                 name="name"
                 style="font-size: 12px"
-                v-model="pdvClient.memoriaMaquina"
+                v-model="memoriaMaquina"
                 outlined
                 label="Memória"
                 id="id"
@@ -42,7 +42,7 @@
               <v-text-field
                 name="name"
                 style="font-size: 12px"
-                v-model="pdvClient.armazenamentoMaquina"
+                v-model="armazenamentoMaquina"
                 outlined
                 label="Armazenamento"
                 id="id"
@@ -70,7 +70,7 @@
           <v-col>
             <v-row>
               <v-text-field
-                v-model="pdvClient.modeloImpressora"
+                v-model="modeloImpressora"
                 name="name"
                 style="font-size: 12px"
                 outlined
@@ -82,7 +82,7 @@
               <v-text-field
                 name="name"
                 style="font-size: 12px"
-                v-model="pdvClient.serieImpressora"
+                v-model="serieImpressora"
                 outlined
                 label="Número de Série"
                 id="id"
@@ -92,7 +92,7 @@
               <v-text-field
                 name="name"
                 style="font-size: 12px"
-                v-model="pdvClient.numeroImpressora"
+                v-model="numeroImpressora"
                 outlined
                 label="Número"
                 id="id"
@@ -119,7 +119,7 @@
           <v-col>
             <v-row>
               <v-text-field
-                v-model="pdvClient.pinpad"
+                v-model="pinpad"
                 @click.stop="tipo('pinpad')"
                 name="name"
                 style="font-size: 12px"
@@ -133,7 +133,7 @@
                 name="name"
                 style="font-size: 12px"
                 @click.stop="tipo('balanca')"
-                v-model="pdvClient.balanca"
+                v-model="balanca"
                 outlined
                 label="Balança"
                 id="id"
@@ -144,7 +144,7 @@
                 name="name"
                 @click.stop="tipo('scanner')"
                 style="font-size: 12px"
-                v-model="pdvClient.scanner"
+                v-model="scanner"
                 outlined
                 label="Leitor de Mesa"
                 id="id"
@@ -155,7 +155,7 @@
                 name="name"
                 style="font-size: 12px"
                 @click.stop="tipo('scanner_mao')"
-                v-model="pdvClient.scanner_mao"
+                v-model="scanner_mao"
                 outlined
                 label="Leitor de Mão"
                 id="id"
@@ -167,43 +167,20 @@
         </v-card>
       </div>
     </div>
-
-    <!-- footer -->
-
-    <v-footer dark absolute color="#37474F">
-      <v-row>
-        <v-text-field
-          v-model="$store.sshClient.ipAddress"
-          label="IP"
-          class="mx-2"
-        ></v-text-field>
-        <v-text-field
-          v-model="sshClient.user"
-          label="Usuário"
-          class="mx-2"
-        ></v-text-field>
-        <v-text-field
-          v-model="sshClient.password"
-          label="Senha"
-          class="mx-2"
-        ></v-text-field>
-        <v-btn
-          color="#263238"
-          dark
-          tile
-          class="my-auto mx-2 border-0"
-          v-on:click="processBackendSend()"
-          >Conectar</v-btn
-        >
-      </v-row>
-    </v-footer>
-
-    <!-- fim do footer -->
+    <FooterAPP />
   </v-container>
 </template>
 
 <script>
 import Modal from "./Modals/Modal.vue";
+import FooterAPP from "./Footer/Footer.vue";
+
+import { createHelpers } from "vuex-map-fields";
+
+const { mapFields } = createHelpers({
+  getterType: "getPdvClientField",
+  mutationType: "updatePdvClientField",
+});
 
 export default {
   name: "Main",
@@ -213,29 +190,13 @@ export default {
       titulo: "",
       conteudo: "",
       modal: false,
-
-      pdvClient: {
-        hostName: "",
-        cpuMaquina: "",
-        memoriaMaquina: "",
-        armazenamentoMaquina: "",
-        modeloImpressora: "",
-        serieImpressora: "",
-        numeroImpressora: "",
-        pinpad: "",
-        balanca: "",
-        scanner: "",
-        scanner_mao: "",
-        _pinpad: "",
-        _balanca: "",
-        _scanner: "",
-        _scanner_mao: "",
-      },
     };
   },
   components: {
     Modal,
+    FooterAPP,
   },
+  mounted() {},
 
   methods: {
     tipo(out) {
@@ -243,82 +204,97 @@ export default {
         this.modal = true;
         this.titulo = "Pinpad";
         this.conteudo =
-          this.pdvClient._pinpad.DESCRICAO[0] +
+          this.$store._pinpad.DESCRICAO[0] +
           "<br/>" +
           "Função: " +
-          this.pdvClient._pinpad.$.TIPO +
+          this.$store._pinpad.$.TIPO +
           "<br/>" +
           "Ativo: " +
-          this.pdvClient._pinpad.ATIVO[0] +
+          this.this.$store._pinpad.ATIVO[0] +
           "<br/>" +
           "Tipo: " +
-          this.pdvClient._pinpad.TIPODISPOSITIVO[0] +
+          this.this.$store._pinpad.TIPODISPOSITIVO[0] +
           "<br/>" +
           "Porta: " +
-          this.pdvClient._pinpad.POR[0];
+          this.this.$store._pinpad.POR[0];
       }
 
       if (out == "balanca") {
         this.modal = true;
         this.titulo = "Balança";
         this.conteudo =
-          this.pdvClient._balanca.DESCRICAO[0] +
+          this._balanca.DESCRICAO[0] +
           "<br/>" +
           "Função: " +
-          this.pdvClient._balanca.$.TIPO +
+          this._balanca.$.TIPO +
           "<br/>" +
           "Ativo: " +
-          this.pdvClient._balanca.ATIVO[0] +
+          this._balanca.ATIVO[0] +
           "<br/>" +
           "Tipo: " +
-          this.pdvClient._balanca.TIPODISPOSITIVO[0] +
+          this._balanca.TIPODISPOSITIVO[0] +
           "<br/>" +
           "Porta: " +
-          this.pdvClient._balanca.POR[0];
+          this._balanca.POR[0];
       }
 
       if (out == "scanner") {
         this.modal = true;
         this.titulo = "Leitor de Mesa";
         this.conteudo =
-          this.pdvClient._scanner.DESCRICAO[0] +
+          this._scanner.DESCRICAO[0] +
           "<br/>" +
           "Função: " +
-          this.pdvClient._scanner.$.TIPO +
+          this._scanner.$.TIPO +
           "<br/>" +
           "Ativo: " +
-          this.pdvClient._scanner.ATIVO[0] +
+          this._scanner.ATIVO[0] +
           "<br/>" +
           "Tipo: " +
-          this.pdvClient._scanner.TIPODISPOSITIVO[0] +
+          this._scanner.TIPODISPOSITIVO[0] +
           "<br/>" +
           "Porta: " +
-          this.pdvClient._scanner.POR[0];
+          this._scanner.POR[0];
       }
 
       if (out == "scanner_mao") {
         this.modal = true;
         this.titulo = "Leitor de Mesa";
         this.conteudo =
-          this.pdvClient._scanner_mao.DESCRICAO[0] +
+          this._scanner_mao.DESCRICAO[0] +
           "<br/>" +
           "Função: " +
-          this.pdvClient._scanner_mao.$.TIPO +
+          this._scanner_mao.$.TIPO +
           "<br/>" +
           "Ativo: " +
-          this.pdvClient._scanner_mao.ATIVO[0] +
+          this._scanner_mao.ATIVO[0] +
           "<br/>" +
           "Tipo: " +
-          this.pdvClient._scanner_mao.TIPODISPOSITIVO[0] +
+          this._scanner_mao.TIPODISPOSITIVO[0] +
           "<br/>" +
           "Porta: " +
-          this.pdvClient._scanner_mao.POR[0];
+          this._scanner_mao.POR[0];
       }
     },
-
-    processBackendSend() {
-      this.$store.dispatch("ConnectionSSH");
-    },
+  },
+  computed: {
+    ...mapFields([
+      "cpuMaquina",
+      "hostName",
+      "memoriaMaquina",
+      "armazenamentoMaquina",
+      "modeloImpressora",
+      "serieImpressora",
+      "numeroImpressora",
+      "pinpad",
+      "balanca",
+      "scanner",
+      "scanner_mao",
+      "_pinpad",
+      "_balanca",
+      "_scanner",
+      "_scanner_mao",
+    ]),
   },
 };
 </script>

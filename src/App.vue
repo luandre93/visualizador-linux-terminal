@@ -16,7 +16,6 @@
             color="#37474f"
             dark
             elevation="0"
-            floating="right"
             style="-webkit-app-region: drag; width: 50%"
             px-5
           ></v-app-bar>

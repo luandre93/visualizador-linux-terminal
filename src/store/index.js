@@ -1,6 +1,8 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vue from 'vue';
+import Vuex from 'vuex';
+import { getField, updateField } from 'vuex-map-fields';
 import { ipcRenderer } from "electron";
+
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -10,19 +12,53 @@ export default new Vuex.Store({
             user: "",
             password: "",
         },
+        pdvClient: {
+            hostName: "",
+            cpuMaquina: "",
+            memoriaMaquina: "",
+            armazenamentoMaquina: "",
+            modeloImpressora: "",
+            serieImpressora: "",
+            numeroImpressora: "",
+            pinpad: "",
+            balanca: "",
+            scanner: "",
+            scanner_mao: "",
+            _pinpad: "",
+            _balanca: "",
+            _scanner: "",
+            _scanner_mao: "",
+        }
     },
-    mutations: {
+    getters: {
+        getSSHClientField(state) {
+            return getField(state.sshClient);
+        },
+        getPdvClientField(state) {
+            return getField(state.pdvClient);
+        },
+    },
 
+    mutations: {
+        updateSSHClientField(state, field) {
+            updateField(state.sshClient, field)
+        },
+        updatePdvClientField(state, field) {
+            updateField(state.pdvClient, field)
+        }
     },
+
+
     actions: {
-        ConnectionSSH() {
-            ipcRenderer.send("ssh-connect-login", this.sshClient);
+        async ConnectionSSH() {
+            ipcRenderer.send("ssh-connect-login", this.state.sshClient);
             ipcRenderer.on("ssh-connect-login", (event, Response) => {
-                this.pdvClient = Response;
-                console.log(this.pdvClient);
+                this.state.pdvClient = Response;
+                console.log(Response);
             });
         },
     },
+
     modules: {
     }
 })
