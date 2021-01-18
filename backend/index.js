@@ -3,6 +3,8 @@ const { ipcMain } = require('electron')
 
 let outClient =
 {
+    msg: "",
+    modalShow: false,
     hostName: "",
     cpuMaquina: "",
     memoriaMaquina: "",
@@ -23,7 +25,7 @@ let outClient =
     _balanca: "",
 }
 
-ipcMain.on('ssh-connect-login', (event, args) => {
+ipcMain.on('ssh-connect-send', (event, args) => {
 
     var ssh = new SSH({
         host: args.ipAddress,
@@ -63,16 +65,46 @@ ipcMain.on('ssh-connect-login', (event, args) => {
                 outClient.scanner_mao = "Porta: " + result.ZEUS_INFOPDV.DISPOSITIVOS[0].DISPOSITIVO[1].POR[0];
                 outClient.pinpad = "Porta: " + result.ZEUS_INFOPDV.DISPOSITIVOS[0].DISPOSITIVO[2].POR[0];
                 outClient.balanca = "Porta: " + result.ZEUS_INFOPDV.DISPOSITIVOS[0].DISPOSITIVO[4].POR[0];
-                outClient._scanner = result.ZEUS_INFOPDV.DISPOSITIVOS[0].DISPOSITIVO[0];;
+                outClient._scanner = result.ZEUS_INFOPDV.DISPOSITIVOS[0].DISPOSITIVO[0];
                 outClient._scanner_mao = result.ZEUS_INFOPDV.DISPOSITIVOS[0].DISPOSITIVO[1]
                 outClient._pinpad = result.ZEUS_INFOPDV.DISPOSITIVOS[0].DISPOSITIVO[2];
                 outClient._balanca = result.ZEUS_INFOPDV.DISPOSITIVOS[0].DISPOSITIVO[4];
             })
 
-            event.reply("ssh-connect-login", outClient)
+            event.reply("ssh-connect-send", outClient)
         }
-    }).start()
+    }).start({
+        success: () => {
+            outClient.msg = "Conexão com sucesso!"
+            outClient.modalShow = false;
+        },
+        fail: () => {
+            console.log("Falhou!")
+            outClient =
+            {
+                msg: "Conexão falhou!",
+                modalShow: true,
+                hostName: "",
+                cpuMaquina: "",
+                memoriaMaquina: "",
+                armazenamentoMaquina: "",
+                versaoCodfon: "",
+                versaoModuloPHP: "",
+                versaoClisitef: "",
+                modeloImpressora: "",
+                numeroImpressora: "",
+                tipoImpressora: "",
+                pinpad: "",
+                scanner: "",
+                scanner_mao: "",
+                balanca: "",
+                _pinpad: "",
+                _scanner: "",
+                _scanner_mao: "",
+                _balanca: "",
+            }
+            event.reply("ssh-connect-send", outClient)
+        }
+    })
 
 });
-
-

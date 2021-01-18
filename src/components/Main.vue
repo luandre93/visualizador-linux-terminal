@@ -174,17 +174,13 @@
 <script>
 import Modal from "./Modals/Modal.vue";
 import FooterAPP from "./Footer/Footer.vue";
-
 import { createHelpers } from "vuex-map-fields";
-
 const { mapFields } = createHelpers({
   getterType: "getPdvClientField",
   mutationType: "updatePdvClientField",
 });
-
 export default {
   name: "Main",
-
   data: () => {
     return {
       titulo: "",
@@ -197,7 +193,6 @@ export default {
     FooterAPP,
   },
   mounted() {},
-
   methods: {
     tipo(out) {
       if (out == "pinpad") {
@@ -218,7 +213,6 @@ export default {
           "Porta: " +
           this._pinpad.POR[0];
       }
-
       if (out == "balanca") {
         this.modal = true;
         this.titulo = "Balança";
@@ -237,7 +231,6 @@ export default {
           "Porta: " +
           this._balanca.POR[0];
       }
-
       if (out == "scanner") {
         this.modal = true;
         this.titulo = "Leitor de Mesa";
@@ -256,12 +249,11 @@ export default {
           "Porta: " +
           this._scanner.POR[0];
       }
-
       if (out == "scanner_mao") {
         this.modal = true;
         this.titulo = "Leitor de Mesa";
         this.conteudo =
-          this._scanner_mao.DESCRICAO[0] +
+          this._scanner_mao.DESCRICAO +
           "<br/>" +
           "Função: " +
           this._scanner_mao.$.TIPO +

@@ -8,17 +8,28 @@
         rounded="0"
         style="background-color: #263238"
       >
-        <v-app-bar color="#37474f" dark>
+        <v-app-bar color="#37474f" dark height="50px">
           <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
 
-          <v-toolbar-title>Visualizador de PDV Zanthus</v-toolbar-title>
+          <v-toolbar-title>Visualizador PDV </v-toolbar-title>
+
           <v-app-bar
             color="#37474f"
             dark
             elevation="0"
             style="-webkit-app-region: drag; width: 50%"
-            px-5
-          ></v-app-bar>
+            height="50px"
+          >
+          </v-app-bar>
+
+          <v-btn
+            color="#37474f"
+            tile
+            elevation="0"
+            style="font-family: arial"
+            @click.stop="close()"
+            ><v-icon>mdi-close</v-icon>
+          </v-btn>
         </v-app-bar>
 
         <v-navigation-drawer
@@ -54,6 +65,8 @@
 </template>
 
 <script>
+const { ipcRenderer } = require("electron");
+
 export default {
   name: "App",
 
@@ -61,6 +74,11 @@ export default {
     return {
       drawer: false,
     };
+  },
+  methods: {
+    close() {
+      ipcRenderer.send("close");
+    },
   },
 };
 </script>

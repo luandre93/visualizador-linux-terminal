@@ -5,15 +5,22 @@ import { ipcRenderer } from "electron";
 
 Vue.use(Vuex)
 
+
 export default new Vuex.Store({
     state: {
         sshClient: {
             ipAddress: "",
             user: "",
             password: "",
-            btnConnect: "Conectar",
+            isDisabled: false,
+            isLoading: false,
+            modal: false,
+            conteudo: "",
+            titulo: "",
         },
         pdvClient: {
+            msg: "",
+            modalShow: false,
             hostName: "",
             cpuMaquina: "",
             memoriaMaquina: "",
@@ -32,6 +39,7 @@ export default new Vuex.Store({
         }
     },
     getters: {
+
         getSSHClientField(state) {
             return getField(state.sshClient);
         },
@@ -41,6 +49,7 @@ export default new Vuex.Store({
     },
 
     mutations: {
+
         updateSSHClientField(state, field) {
             updateField(state.sshClient, field)
         },
@@ -51,15 +60,23 @@ export default new Vuex.Store({
 
 
     actions: {
-        async ConnectionSSH() {
-            ipcRenderer.send("ssh-connect-login", this.state.sshClient);
-            ipcRenderer.on("ssh-connect-login", (event, Response) => {
+        ConnectionSSH() {
+            this.state.sshClient.isLoading = true
+            ipcRenderer.send("ssh-connect-send", this.state.sshClient);
+            ipcRenderer.on("ssh-connect-send", (event, Response) => {
                 this.state.pdvClient = Response;
-                console.log(Response);
+                console.log(this.state.pdvClient)
+                if (this.state.pdvClient.modalShow == true) {
+                    this.state.sshClient.modal = true;
+                    this.state.sshClient.conteudo = this.state.pdvClient.msg;
+                    this.state.sshClient.titulo = "Informação"
+                    this.state.sshClient.isLoading = false;
+                    ipcRenderer.removeAllListeners("ssh-connect-send");
+                } else {
+                    this.state.sshClient.isLoading = false;
+                }
             });
-        },
-    },
-
-    modules: {
+        }
     }
 })
+
