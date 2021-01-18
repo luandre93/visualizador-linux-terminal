@@ -38,7 +38,7 @@
               </v-list-item>
               <v-list-item to="/Commands">
                 <v-list-item-icon>
-                  <v-icon>mdi-account</v-icon>
+                  <v-icon>mdi-console</v-icon>
                 </v-list-item-icon>
                 <v-list-item-title>Comandos</v-list-item-title>
               </v-list-item>

@@ -11,6 +11,7 @@ export default new Vuex.Store({
             ipAddress: "",
             user: "",
             password: "",
+            btnConnect: "Conectar",
         },
         pdvClient: {
             hostName: "",

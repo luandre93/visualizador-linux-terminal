@@ -204,19 +204,19 @@ export default {
         this.modal = true;
         this.titulo = "Pinpad";
         this.conteudo =
-          this.$store._pinpad.DESCRICAO[0] +
+          this._pinpad.DESCRICAO[0] +
           "<br/>" +
           "Função: " +
-          this.$store._pinpad.$.TIPO +
+          this._pinpad.$.TIPO +
           "<br/>" +
           "Ativo: " +
-          this.this.$store._pinpad.ATIVO[0] +
+          this._pinpad.ATIVO[0] +
           "<br/>" +
           "Tipo: " +
-          this.this.$store._pinpad.TIPODISPOSITIVO[0] +
+          this._pinpad.TIPODISPOSITIVO[0] +
           "<br/>" +
           "Porta: " +
-          this.this.$store._pinpad.POR[0];
+          this._pinpad.POR[0];
       }
 
       if (out == "balanca") {

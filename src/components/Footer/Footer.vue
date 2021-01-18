@@ -14,7 +14,7 @@
         tile
         class="my-auto mx-2 border-0"
         v-on:click="processBackendSend()"
-        >Conectar</v-btn
+        >{{ btnConnect }}</v-btn
       >
     </v-row>
   </v-footer>
@@ -38,7 +38,7 @@ export default {
   },
 
   computed: {
-    ...mapFields(["ipAddress", "user", "password"]),
+    ...mapFields(["ipAddress", "user", "password", "btnConnect"]),
   },
 };
 </script>
