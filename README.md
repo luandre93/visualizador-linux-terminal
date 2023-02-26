@@ -1,4 +1,4 @@
-# Vizualizador de PDV Zanthus(Linux)
+# visualizador de terminais linux, recolhe informações CPU, HD, Memoria via SSH.
 
 
 Para Buildar utilizar comando abaixo:
